@@ -18,14 +18,10 @@ use strict;
 use testapi;
 
 sub run {
-    # wait for bootloader to appear
-    assert_screen 'bootloader';
+    wait_serial("Welcome to openSUSE", 300);
+    type_string("root\n");
 
-    # press enter to boot right away
-    send_key 'ret';
-
-    # wait for the desktop to appear
-    assert_screen 'desktop', 300;
+    assert_script_run("ls");
 }
 
 1;
