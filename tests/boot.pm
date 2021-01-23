@@ -1,17 +1,6 @@
-# Copyright (C) 2014-2018 SUSE LLC
+# Copyright (C) 2020 SUSE LLC
 #
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License along
-# with this program; if not, see <http://www.gnu.org/licenses/>.
+# SPDX-Identifier: CC0-1.0
 
 use base 'basetest';
 use strict;
@@ -19,9 +8,11 @@ use testapi;
 
 sub run {
     wait_serial("Welcome to openSUSE", 300);
-    type_string("root\n");
-
-    assert_script_run("ls");
+    assert_script_run("git clone https://github.com/openSUSE/openSUSE-release-tools.git");
+    assert_script_run("cd openSUSE-release-tools");
+    assert_script_run("sed -i -e "s,../..:,$PWD:," dist/ci/docker-compose.yml");
+    assert_script_run("docker-compose -f dist/ci/docker-compose.yml run flaker");
+    assert_script_run("docker-compose -f dist/ci/docker-compose.yaml run test");
 }
 
 1;
