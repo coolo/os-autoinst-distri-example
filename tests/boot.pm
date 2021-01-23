@@ -8,8 +8,8 @@ use testapi;
 
 sub run {
     wait_serial("Welcome to openSUSE", 300);
-    assert_script_run('useradd -m tester');
-    assert_script_run("chmod a+w /dev/$serialdev");
+    assert_script_run('useradd -G docker,dialout -m tester');
+    #assert_script_run("chmod a+w /dev/$serialdev");
     type_string("su - tester\n");
     assert_script_run('git clone https://github.com/openSUSE/openSUSE-release-tools.git repo');
     assert_script_run('cd repo');
