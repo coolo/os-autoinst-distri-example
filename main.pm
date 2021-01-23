@@ -18,6 +18,6 @@ use strict;
 use testapi;
 use autotest;
 
-autotest::loadtest 'tests/boot.pm';
+autotest::loadtest 'tests/rungit.pm';
 
 1;
